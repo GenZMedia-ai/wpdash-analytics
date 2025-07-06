@@ -1,0 +1,81 @@
+name: wpdash-analytics
+region: nyc
+
+services:
+# Next.js Dashboard
+- name: dashboard
+  github:
+    repo: GenZMedia-ai/wpdash-analytics
+    branch: main
+    deploy_on_push: true
+  source_dir: dashboard
+  build_command: npm run build
+  run_command: npm start
+  environment_slug: node-js
+  instance_size_slug: apps-s-1vcpu-1gb
+  instance_count: 1
+  http_port: 3000
+  envs:
+  # Database connection
+  - key: DATABASE_URL
+    scope: RUN_TIME
+    type: SECRET
+  # Supabase-compatible setup
+  - key: NEXT_PUBLIC_SUPABASE_URL
+    scope: RUN_AND_BUILD_TIME
+    value: "https://${APP_DOMAIN}"
+  - key: NEXT_PUBLIC_SUPABASE_ANON_KEY
+    scope: RUN_AND_BUILD_TIME
+    type: SECRET
+  # Node environment
+  - key: NODE_ENV
+    scope: RUN_AND_BUILD_TIME
+    value: "production"
+  routes:
+  - path: /
+
+# Static site for the PHP tracking proxy
+static_sites:
+- name: tracking-proxy
+  github:
+    repo: GenZMedia-ai/wpdash-analytics
+    branch: main
+    deploy_on_push: true
+  source_dir: /
+  output_dir: public
+  routes:
+  - path: /api
+  index_document: index.html
+  error_document: error.html
+
+# Edge Function replacement (Node.js service)
+- name: ingest-api
+  github:
+    repo: GenZMedia-ai/wpdash-analytics
+    branch: main
+    deploy_on_push: true
+  source_dir: supabase/functions/ingest-event-v2
+  build_command: npm install
+  run_command: node server.js
+  environment_slug: node-js
+  instance_size_slug: apps-s-1vcpu-0.5gb
+  instance_count: 1
+  http_port: 8000
+  envs:
+  - key: DATABASE_URL
+    scope: RUN_TIME
+    type: SECRET
+  - key: INGEST_SECRET
+    scope: RUN_TIME
+    type: SECRET
+  routes:
+  - path: /functions/v1/ingest-event-v2
+
+databases:
+- name: wpdash-db
+  engine: PG
+  version: "17"
+  production: false
+  cluster_name: wpdash-analytics-db
+  db_name: analytics
+  db_user: wpdash
