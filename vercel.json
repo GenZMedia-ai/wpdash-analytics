@@ -1,6 +1,13 @@
 {
-  "buildCommand": "cd dashboard && npm install --legacy-peer-deps && npm run build",
-  "outputDirectory": "dashboard/.next",
-  "installCommand": "echo 'Skipping install at root'",
-  "framework": "nextjs"
+  "functions": {
+    "dashboard/app/**/*.{js,jsx,ts,tsx}": {
+      "runtime": "@vercel/next@latest"
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/dashboard/$1"
+    }
+  ]
 }
