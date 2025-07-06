@@ -1,0 +1,132 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Professional Dark Theme Colors */
+    --background: 217 39% 10%; /* #111827 - gray-900 */
+    --foreground: 210 40% 98%; /* #F9FAFB - gray-50 */
+    --card: 217 33% 17%; /* #1F2937 - gray-800 */
+    --card-foreground: 210 40% 98%;
+    --popover: 217 33% 17%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 153 100% 44%; /* #00DC82 - Brand accent */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 157 51% 39%; /* #21A366 - Brand data */
+    --secondary-foreground: 0 0% 100%;
+    --muted: 217 33% 22%; /* #374151 - gray-700 */
+    --muted-foreground: 215 20% 65%; /* #9CA3AF - gray-400 */
+    --accent: 157 51% 39%; /* Using brand data color */
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84% 60%; /* #EF4444 */
+    --destructive-foreground: 0 0% 100%;
+    --border: 217 33% 22%; /* #374151 - gray-700 */
+    --input: 217 33% 22%;
+    --ring: 157 51% 39%; /* Brand data color */
+    --radius: 0.75rem;
+  }
+
+  * {
+    @apply border-border;
+  }
+  
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* Custom scrollbar for dark theme */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-muted;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-muted-foreground/30 rounded;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-muted-foreground/50;
+}
+
+/* Glassmorphism base */
+@layer utilities {
+  .glass {
+    background-color: rgba(30, 41, 59, 0.5);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .glass-dark {
+    background-color: rgba(15, 23, 42, 0.8);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+  }
+  
+  .glass-light {
+    background-color: rgba(51, 65, 85, 0.3);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  
+  /* Glow effects with new brand colors */
+  .glow-primary {
+    box-shadow: 0 0 20px rgba(0, 220, 130, 0.3);
+  }
+  
+  .glow-secondary {
+    box-shadow: 0 0 20px rgba(33, 163, 102, 0.3);
+  }
+  
+  /* Animation utilities */
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+  
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+  }
+  
+  .animate-pulse-slow {
+    animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+  
+  /* Chart overrides */
+  .recharts-cartesian-grid-horizontal line,
+  .recharts-cartesian-grid-vertical line {
+    @apply stroke-border opacity-20;
+  }
+  
+  .recharts-text {
+    @apply fill-muted-foreground;
+  }
+  
+  .recharts-layer {
+    @apply font-medium;
+  }
+}
+
+/* Loading states */
+.skeleton {
+  @apply animate-pulse bg-muted;
+}
+
+/* Print styles */
+@media print {
+  body {
+    @apply bg-white text-black;
+  }
+  
+  .no-print {
+    display: none !important;
+  }
+}
