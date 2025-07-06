@@ -49,6 +49,10 @@ NEXT_PUBLIC_SUPABASE_URL=https://YOUR_PROJECT_ID.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key
 ```
 
+## Deployment
+
+The dashboard is configured to deploy on Vercel with the `vercel.json` configuration.
+
 ## License
 
 MIT License - see LICENSE file for details
