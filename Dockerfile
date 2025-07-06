@@ -7,7 +7,7 @@ WORKDIR /app
 COPY dashboard/package*.json ./
 
 # Install dependencies
-RUN npm ci
+RUN npm install
 
 # Copy application files
 COPY dashboard/ ./
@@ -22,7 +22,7 @@ WORKDIR /app
 
 # Install production dependencies only
 COPY dashboard/package*.json ./
-RUN npm ci --production
+RUN npm install --production
 
 # Copy built application from builder
 COPY --from=builder /app/.next ./.next
