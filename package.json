@@ -1,0 +1,9 @@
+{
+  "name": "wpdash-analytics",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "cd dashboard && npm run dev",
+    "build": "cd dashboard && npm install --legacy-peer-deps && npm run build",
+    "start": "cd dashboard && npm run start"
+  }
+}
